@@ -1,5 +1,5 @@
 const express=require("express")
-
+const cors=require('cors')
 const dotenv=require("dotenv")
 const app=express();
 const mongoose=require("mongoose")
@@ -9,9 +9,7 @@ const scategorieRouter =require("./routes/scategorie.route")
 const articleRouter =require("./routes/article.route")
 dotenv.config()
 app.use(express.json())
-app.use("/api/categorie", categorieRouter)
-app.use('/api/scategorie', scategorieRouter)
-app.use('/api/article', articleRouter);
+app.use(cors())
 
 app.get("/acceuil",(req,res)=>{
 
@@ -23,5 +21,9 @@ mongoose.connect(process.env.DATABASECLOUD)
 .catch(err => { console.log("Unable to connect to database", err);
 process.exit(); })
 
+
+app.use("/api/categorie", categorieRouter)
+app.use('/api/scategorie', scategorieRouter)
+app.use('/api/article', articleRouter);
 app.listen(process.env.PORT,()=>
 console.log(`app executer sur le port ${process.env.PORT}`))
